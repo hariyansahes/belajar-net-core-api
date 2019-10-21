@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BoilerplateApi.Data;
+using BoilerplateApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoilerplateApi.Controllers
@@ -10,24 +12,35 @@ namespace BoilerplateApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly DataContext _context;
+
+        public ValuesController(DataContext context) => _context = context;
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<Value>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _context.Values;
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<Value> Get(int id)
         {
-            return "value";
+            var valueitem = _context.Values.Find(id);
+            return valueitem;
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<Value> Post([FromBody] Value value)
         {
+            //var isi = new Value();
+            //isi.Name = "cihui";
+
+            //_context.Values.Add(isi);
+            //_context.SaveChanges();
+            //return "berhasil";
+            return value;
         }
 
         // PUT api/values/5
